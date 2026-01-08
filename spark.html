@@ -246,74 +246,74 @@
       }
 
       return `
-        <div class="relative h-full flex flex-col items-center justify-center p-3 pb-4">
+        <div class="relative h-full flex flex-col items-center justify-center p-2 pt-4 pb-2">
           <div id="swipeCard" class="w-full max-w-sm select-none relative" style="cursor: grab;">
             <div id="likeOverlay" class="absolute inset-0 z-10 pointer-events-none transition-opacity duration-200 opacity-0">
-              <div class="absolute top-6 right-4 bg-green-500 text-white px-4 py-2 rounded-xl font-bold text-lg shadow-2xl transform rotate-12 border-2 border-white">LIKE</div>
+              <div class="absolute top-4 right-3 bg-green-500 text-white px-3 py-1.5 rounded-xl font-bold text-sm shadow-2xl transform rotate-12 border-2 border-white">LIKE</div>
             </div>
             <div id="nopeOverlay" class="absolute inset-0 z-10 pointer-events-none transition-opacity duration-200 opacity-0">
-              <div class="absolute top-6 left-4 bg-red-500 text-white px-4 py-2 rounded-xl font-bold text-lg shadow-2xl transform -rotate-12 border-2 border-white">NOPE</div>
+              <div class="absolute top-4 left-3 bg-red-500 text-white px-3 py-1.5 rounded-xl font-bold text-sm shadow-2xl transform -rotate-12 border-2 border-white">NOPE</div>
             </div>
             <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
-              <div class="relative bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 h-44 flex items-center justify-center">
-                <div class="text-7xl animate-bounce-subtle">${currentJob.icon}</div>
-                <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
+              <div class="relative bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 h-36 flex items-center justify-center">
+                <div class="text-6xl animate-bounce-subtle">${currentJob.icon}</div>
+                <div class="absolute top-2 right-2 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-lg">
                   <span class="text-green-600 font-bold text-xs">${currentJob.payRate}</span>
                 </div>
               </div>
-              <div class="p-4">
-                <div class="mb-3">
-                  <h2 class="text-xl font-bold text-gray-900 mb-1">${currentJob.title}</h2>
+              <div class="p-3">
+                <div class="mb-2">
+                  <h2 class="text-lg font-bold text-gray-900 mb-0.5">${currentJob.title}</h2>
                   <p class="text-orange-600 font-semibold text-xs uppercase tracking-wide">${currentJob.category}</p>
                 </div>
-                <div class="space-y-2 mb-3">
+                <div class="space-y-1.5 mb-2">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center text-gray-600">
-                      <svg class="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-3.5 h-3.5 mr-1.5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                       </svg>
                       <span class="text-xs font-medium">${currentJob.time}</span>
                     </div>
-                    <div class="px-2 py-1 rounded-full text-xs font-bold ${currentJob.startCost === 0 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
+                    <div class="px-2 py-0.5 rounded-full text-xs font-bold ${currentJob.startCost === 0 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
                       ${currentJob.startCost === 0 ? '✓ FREE' : '$ PAID'}
                     </div>
                   </div>
                   <div class="flex items-center text-gray-600">
-                    <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-3.5 h-3.5 mr-1.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <line x1="12" y1="1" x2="12" y2="23"></line>
                       <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                     </svg>
                     <span class="text-xs font-medium">Earn: ${currentJob.payRate}</span>
                   </div>
                 </div>
-                <div id="jobInfo" class="${state.showInfo ? '' : 'hidden'} mt-3 p-3 bg-gradient-to-br from-orange-50 to-red-50 rounded-xl animate-slideDown border border-orange-100">
-                  <p class="text-gray-700 text-sm leading-relaxed">${currentJob.desc}</p>
+                <div id="jobInfo" class="${state.showInfo ? '' : 'hidden'} mt-2 p-2.5 bg-gradient-to-br from-orange-50 to-red-50 rounded-xl animate-slideDown border border-orange-100">
+                  <p class="text-gray-700 text-xs leading-relaxed">${currentJob.desc}</p>
                 </div>
               </div>
             </div>
           </div>
-          <div class="flex gap-3 mt-5 relative z-20">
-            <button id="btnPass" class="bg-white text-red-500 p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-red-200">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex gap-2.5 mt-3 relative z-20">
+            <button id="btnPass" class="bg-white text-red-500 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-red-200">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
-            <button id="btnInfo" class="bg-white text-orange-500 p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-orange-200">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button id="btnInfo" class="bg-white text-orange-500 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-orange-200">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="16" x2="12" y2="12"></line>
                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
               </svg>
             </button>
-            <button id="btnLike" class="bg-white text-green-500 p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-green-200">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button id="btnLike" class="bg-white text-green-500 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-green-200">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
             </button>
           </div>
-          <div class="mt-4 text-gray-500 text-xs font-medium">${state.jobs.length - state.currentIndex} opportunities remaining</div>
+          <div class="mt-2 text-gray-500 text-xs font-medium mb-2">${state.jobs.length - state.currentIndex} opportunities remaining</div>
         </div>
       `;
     }
