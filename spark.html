@@ -22,10 +22,23 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
+    @keyframes zap {
+      0% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.2) rotate(-10deg); }
+      50% { transform: scale(1.1) rotate(10deg); }
+      75% { transform: scale(1.2) rotate(-5deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.6)); }
+      50% { filter: drop-shadow(0 0 16px rgba(249, 115, 22, 0.9)); }
+    }
     .animate-slideDown { animation: slideDown 0.3s ease-out; }
     .animate-slideIn { animation: slideIn 0.4s ease-out; }
     .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
     .animate-bounce-subtle { animation: bounce-subtle 3s ease-in-out infinite; }
+    .animate-zap { animation: zap 0.6s ease-in-out; }
+    .animate-glow { animation: glow 2s ease-in-out infinite; }
   </style>
 </head>
 <body class="h-screen bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
@@ -33,10 +46,9 @@
     <header class="bg-white shadow-sm border-b border-gray-200 p-4 sticky top-0 z-40">
       <div class="max-w-6xl mx-auto flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div class="bg-gradient-to-br from-indigo-500 to-purple-600 p-2 rounded-xl">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          <div class="bg-gradient-to-br from-orange-400 to-orange-600 p-2 rounded-xl">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
             </svg>
           </div>
           <div>
@@ -49,11 +61,23 @@
     </header>
 
     <div id="helper" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500">
-      <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl px-6 py-3 shadow-2xl flex items-center gap-3">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+      <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl px-6 py-3 shadow-2xl flex items-center gap-3">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
         </svg>
         <p class="text-sm font-medium">Swipe right to save, left to pass!</p>
+      </div>
+    </div>
+
+    <div id="mascot" class="fixed bottom-32 right-6 z-50 transition-all duration-300">
+      <div class="relative">
+        <div id="mascotBubble" class="absolute bottom-full right-0 mb-2 opacity-0 transition-all duration-300">
+          <div class="bg-white rounded-2xl px-4 py-2 shadow-xl border-2 border-orange-300">
+            <p id="mascotText" class="text-sm font-medium text-gray-800 whitespace-nowrap"></p>
+          </div>
+          <div class="absolute -bottom-2 right-6 w-4 h-4 bg-white border-r-2 border-b-2 border-orange-300 transform rotate-45"></div>
+        </div>
+        <div id="mascotIcon" class="text-6xl animate-glow cursor-pointer">⚡</div>
       </div>
     </div>
 
@@ -113,23 +137,51 @@
       const jobs = [];
       let id = 1;
       jobTemplates.forEach(template => {
-        for (let i = 0; i < 40; i++) {
-          const neighborhood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
-          const payRate = template.pay[0] + Math.floor(Math.random() * (template.pay[1] - template.pay[0] + 1));
-          jobs.push({
-            id: id++,
-            ...template,
-            location: neighborhood,
-            payRate: `$${payRate}/hr`,
-            posted: `${Math.floor(Math.random() * 7) + 1}d ago`
-          });
-        }
+        const neighborhood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
+        const payRate = template.pay[0] + Math.floor(Math.random() * (template.pay[1] - template.pay[0] + 1));
+        jobs.push({
+          id: id++,
+          ...template,
+          location: neighborhood,
+          payRate: `$${payRate}/hr`,
+          posted: `${Math.floor(Math.random() * 7) + 1}d ago`
+        });
       });
       return jobs.sort(() => Math.random() - 0.5);
     }
 
+    function saveState() {
+      const data = {
+        jobs: state.jobs,
+        currentIndex: state.currentIndex,
+        interested: state.interested,
+        working: state.working
+      };
+      localStorage.setItem('sparkState', JSON.stringify(data));
+    }
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('sparkState');
+        if (saved) {
+          const data = JSON.parse(saved);
+          state.jobs = data.jobs || [];
+          state.currentIndex = data.currentIndex || 0;
+          state.interested = data.interested || [];
+          state.working = data.working || [];
+        }
+      } catch (e) {
+        console.error('Load failed:', e);
+      }
+    }
+
     function init() {
-      state.jobs = generateJobs();
+      loadState();
+      if (state.jobs.length === 0) {
+        state.jobs = generateJobs();
+        saveState();
+      }
+      
       setTimeout(() => {
         const helper = document.getElementById('helper');
         helper.style.opacity = '0';
@@ -153,11 +205,11 @@
       const myJobsBtn = document.getElementById('navMyJobs');
       
       if (state.currentPage === 'swipe') {
-        discoverBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg';
+        discoverBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-orange-400 to-orange-600 text-white shadow-lg';
         myJobsBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all text-gray-600 hover:bg-gray-100 relative';
       } else {
         discoverBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all text-gray-600 hover:bg-gray-100';
-        myJobsBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg relative';
+        myJobsBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-orange-400 to-orange-600 text-white shadow-lg relative';
       }
 
       const badge = document.getElementById('jobBadge');
@@ -203,7 +255,7 @@
               <div class="absolute top-12 left-8 bg-red-500 text-white px-8 py-4 rounded-2xl font-bold text-2xl shadow-2xl transform -rotate-12 border-4 border-white">NOPE</div>
             </div>
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-              <div class="relative bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 h-64 flex items-center justify-center">
+              <div class="relative bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 h-64 flex items-center justify-center">
                 <div class="text-9xl animate-bounce-subtle">${currentJob.icon}</div>
                 <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
                   <span class="text-green-600 font-bold text-sm">${currentJob.payRate}</span>
@@ -212,12 +264,12 @@
               <div class="p-6">
                 <div class="mb-4">
                   <h2 class="text-3xl font-bold text-gray-900 mb-1">${currentJob.title}</h2>
-                  <p class="text-indigo-600 font-semibold text-sm uppercase tracking-wide">${currentJob.category}</p>
+                  <p class="text-orange-600 font-semibold text-sm uppercase tracking-wide">${currentJob.category}</p>
                 </div>
                 <div class="space-y-3 mb-4">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center text-gray-600">
-                      <svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-5 h-5 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                       </svg>
@@ -235,7 +287,7 @@
                     <span class="text-sm font-medium">You can earn: ${currentJob.payRate}</span>
                   </div>
                 </div>
-                <div id="jobInfo" class="${state.showInfo ? '' : 'hidden'} mt-4 p-4 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl animate-slideDown border border-indigo-100">
+                <div id="jobInfo" class="${state.showInfo ? '' : 'hidden'} mt-4 p-4 bg-gradient-to-br from-orange-50 to-red-50 rounded-xl animate-slideDown border border-orange-100">
                   <p class="text-gray-700 leading-relaxed">${currentJob.desc}</p>
                 </div>
               </div>
@@ -248,7 +300,7 @@
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
-            <button id="btnInfo" class="bg-white text-indigo-500 p-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-indigo-200">
+            <button id="btnInfo" class="bg-white text-orange-500 p-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-orange-200">
               <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -362,6 +414,8 @@
       state.touchStart = null;
       updateCardTransform();
       
+      showMascotReaction(direction);
+      
       setTimeout(() => {
         if (direction === 'right') {
           state.interested.push(state.jobs[state.currentIndex]);
@@ -371,8 +425,39 @@
         state.animationDirection = null;
         state.dragOffset = { x: 0, y: 0 };
         state.showInfo = false;
+        saveState();
         render();
       }, 400);
+    }
+
+    function showMascotReaction(direction) {
+      const messages = {
+        right: ["Nice choice! ⚡", "Love it! 🔥", "That's a good one! 💫", "Great pick! ✨"],
+        left: ["Next! ⚡", "Keep looking! 👀", "Onto the next! 🚀", "Fair enough! 👍"]
+      };
+      const list = messages[direction];
+      const msg = list[Math.floor(Math.random() * list.length)];
+      showMascotMessage(msg);
+    }
+
+    function showMascotMessage(text) {
+      const mascotIcon = document.getElementById('mascotIcon');
+      const mascotBubble = document.getElementById('mascotBubble');
+      const mascotText = document.getElementById('mascotText');
+      
+      if (!mascotIcon || !mascotBubble || !mascotText) return;
+      
+      mascotIcon.classList.add('animate-zap');
+      mascotText.textContent = text;
+      mascotBubble.style.opacity = '1';
+      
+      setTimeout(() => {
+        mascotIcon.classList.remove('animate-zap');
+      }, 600);
+      
+      setTimeout(() => {
+        mascotBubble.style.opacity = '0';
+      }, 2500);
     }
 
     function renderMyJobsPage() {
@@ -404,7 +489,11 @@
                       <div class="text-sm text-gray-600">${job.time} • ${job.payRate}</div>
                     </div>
                   </div>
-                  <button class="complete-btn text-green-600 hover:text-green-700 font-medium text-sm px-4 py-2 rounded-lg hover:bg-green-50" data-id="${job.id}">Complete</button>
+                  <button class="complete-btn text-green-600 hover:text-green-700 p-2 rounded-lg hover:bg-green-50 transition-all" data-id="${job.id}" title="Complete job">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  </button>
                 </div>
               </div>
             `).join('')}
@@ -434,7 +523,19 @@
                       <div class="text-sm text-gray-600">${job.time} • ${job.payRate}</div>
                     </div>
                   </div>
-                  <button class="start-btn bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-5 py-2 rounded-xl text-sm font-medium shadow-md" data-id="${job.id}">Start</button>
+                  <div class="flex gap-2">
+                    <button class="remove-btn text-red-500 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition-all" data-id="${job.id}" title="Not interested">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    </button>
+                    <button class="start-btn bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white p-2 rounded-lg shadow-md transition-all" data-id="${job.id}" title="Start job">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             `).join('')}
@@ -446,18 +547,34 @@
     function setupMyJobsHandlers() {
       document.querySelectorAll('.start-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          const jobId = parseInt(e.target.dataset.id);
+          const jobId = parseInt(e.target.closest('button').dataset.id);
           const job = state.interested.find(j => j.id === jobId);
-          state.working.push(job);
-          state.interested = state.interested.filter(j => j.id !== jobId);
-          render();
+          if (job) {
+            state.working.push(job);
+            state.interested = state.interested.filter(j => j.id !== jobId);
+            saveState();
+            showMascotMessage("Let's get to work! 💪");
+            render();
+          }
         });
       });
 
       document.querySelectorAll('.complete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          const jobId = parseInt(e.target.dataset.id);
+          const jobId = parseInt(e.target.closest('button').dataset.id);
           state.working = state.working.filter(j => j.id !== jobId);
+          saveState();
+          showMascotMessage("Great job! 🎉");
+          render();
+        });
+      });
+
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const jobId = parseInt(e.target.closest('button').dataset.id);
+          state.interested = state.interested.filter(j => j.id !== jobId);
+          saveState();
+          showMascotMessage("No worries! 👍");
           render();
         });
       });
