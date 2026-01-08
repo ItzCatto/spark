@@ -7,61 +7,29 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
     }
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes bounce-subtle {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
-    .animate-slideDown {
-      animation: slideDown 0.3s ease-out;
-    }
-    .animate-slideIn {
-      animation: slideIn 0.4s ease-out;
-    }
-    .animate-fadeIn {
-      animation: fadeIn 0.5s ease-out;
-    }
-    .animate-bounce-subtle {
-      animation: bounce-subtle 3s ease-in-out infinite;
-    }
-    .transition-transform {
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .animate-slideDown { animation: slideDown 0.3s ease-out; }
+    .animate-slideIn { animation: slideIn 0.4s ease-out; }
+    .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+    .animate-bounce-subtle { animation: bounce-subtle 3s ease-in-out infinite; }
   </style>
 </head>
 <body class="h-screen bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
   <div id="app" class="h-full flex flex-col">
-    <!-- Header -->
     <header class="bg-white shadow-sm border-b border-gray-200 p-4 sticky top-0 z-40">
       <div class="max-w-6xl mx-auto flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -76,13 +44,10 @@
             <p class="text-xs text-gray-500">Ignite Your Hustle</p>
           </div>
         </div>
-        <div class="text-xs text-gray-500 bg-gray-100 px-3 py-1.5 rounded-lg">
-          Ages 13-15
-        </div>
+        <div class="text-xs text-gray-500 bg-gray-100 px-3 py-1.5 rounded-lg">Ages 13-15</div>
       </div>
     </header>
 
-    <!-- Helper Tooltip -->
     <div id="helper" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500">
       <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl px-6 py-3 shadow-2xl flex items-center gap-3">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,20 +57,17 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <div id="mainContent" class="flex-1 overflow-hidden"></div>
 
-    <!-- Navigation -->
     <nav class="bg-white border-t border-gray-200 shadow-lg sticky bottom-0 z-40">
       <div class="max-w-6xl mx-auto flex justify-around p-2">
-        <button id="navDiscover" class="nav-btn flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg">
+        <button id="navDiscover" class="flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
           </svg>
           <span class="text-xs font-semibold">Discover</span>
         </button>
-        
-        <button id="navMyJobs" class="nav-btn flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all text-gray-600 hover:bg-gray-100 relative">
+        <button id="navMyJobs" class="flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all relative">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
@@ -118,7 +80,6 @@
   </div>
 
   <script>
-    // Job templates
     const jobTemplates = [
       { title: "Dog Walking", category: "Pet Care", pay: [10, 15], time: "1-2 hours", icon: "🐕", desc: "Walk neighborhood dogs and ensure they get exercise", startCost: 0 },
       { title: "Lawn Mowing", category: "Yard Work", pay: [20, 30], time: "2-3 hours", icon: "🌱", desc: "Mow lawns and keep yards looking neat", startCost: 0 },
@@ -130,24 +91,10 @@
       { title: "Snow Shoveling", category: "Seasonal", pay: [20, 30], time: "1-2 hours", icon: "❄️", desc: "Clear driveways and walkways after snowfall", startCost: 10 },
       { title: "Leaf Raking", category: "Seasonal", pay: [15, 25], time: "2 hours", icon: "🍂", desc: "Rake and bag leaves in fall season", startCost: 0 },
       { title: "Plant Watering", category: "Yard Work", pay: [8, 12], time: "30 min", icon: "💧", desc: "Water plants and gardens while owners are away", startCost: 0 },
-      { title: "Window Cleaning", category: "Cleaning", pay: [18, 25], time: "1-2 hours", icon: "🪟", desc: "Clean windows inside and outside homes", startCost: 8 },
-      { title: "Recycling Helper", category: "Household", pay: [8, 12], time: "30 min", icon: "♻️", desc: "Sort and take out recycling for households", startCost: 0 },
-      { title: "Grocery Shopping", category: "Errands", pay: [12, 18], time: "1 hour", icon: "🛒", desc: "Shop for groceries for elderly or busy neighbors", startCost: 0 },
-      { title: "Tech Help", category: "Services", pay: [18, 25], time: "1 hour", icon: "💻", desc: "Help seniors with phones, tablets, and computers", startCost: 0 },
-      { title: "Birthday Party Helper", category: "Events", pay: [15, 22], time: "2-3 hours", icon: "🎉", desc: "Assist with kids' birthday parties and activities", startCost: 0 },
-      { title: "Garage Organizing", category: "Organizing", pay: [22, 30], time: "3-4 hours", icon: "🏠", desc: "Help organize and clean out garages", startCost: 0 },
-      { title: "Baking Sales", category: "Food", pay: [15, 25], time: "Per batch", icon: "🧁", desc: "Bake and sell treats at neighborhood events", startCost: 15 },
-      { title: "Lemonade Stand", category: "Food", pay: [8, 15], time: "2-3 hours", icon: "🍋", desc: "Run a lemonade stand at local events", startCost: 10 },
-      { title: "Arts & Crafts", category: "Creative", pay: [12, 18], time: "1 hour", icon: "🎨", desc: "Teach simple crafts to younger kids", startCost: 5 },
-      { title: "Music Lessons", category: "Education", pay: [20, 30], time: "1 hour", icon: "🎵", desc: "Give beginner music lessons to younger students", startCost: 0 },
     ];
 
-    const neighborhoods = [
-      "Maple Street", "Oak Avenue", "Pine Road", "Elm Drive", "Cedar Lane",
-      "Birch Court", "Willow Way", "Spruce Street", "Hickory Place", "Aspen Circle",
-    ];
+    const neighborhoods = ["Maple Street", "Oak Avenue", "Pine Road", "Elm Drive", "Cedar Lane"];
 
-    // State
     let state = {
       currentPage: 'swipe',
       jobs: [],
@@ -162,17 +109,13 @@
       isDragging: false
     };
 
-    // Generate jobs
     function generateJobs() {
       const jobs = [];
       let id = 1;
-      
       jobTemplates.forEach(template => {
-        const variations = 35 + Math.floor(Math.random() * 6);
-        for (let i = 0; i < variations; i++) {
+        for (let i = 0; i < 40; i++) {
           const neighborhood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
           const payRate = template.pay[0] + Math.floor(Math.random() * (template.pay[1] - template.pay[0] + 1));
-          
           jobs.push({
             id: id++,
             ...template,
@@ -182,32 +125,23 @@
           });
         }
       });
-      
       return jobs.sort(() => Math.random() - 0.5);
     }
 
-    // Initialize
     function init() {
       state.jobs = generateJobs();
-      
-      // Hide helper after 5 seconds
       setTimeout(() => {
         const helper = document.getElementById('helper');
         helper.style.opacity = '0';
         helper.style.transform = 'translate(-50%, -10px)';
-        helper.style.pointerEvents = 'none';
       }, 5000);
 
-      // Navigation
       document.getElementById('navDiscover').addEventListener('click', () => {
         state.currentPage = 'swipe';
-        updateNav();
         render();
       });
-
       document.getElementById('navMyJobs').addEventListener('click', () => {
         state.currentPage = 'myjobs';
-        updateNav();
         render();
       });
 
@@ -219,36 +153,29 @@
       const myJobsBtn = document.getElementById('navMyJobs');
       
       if (state.currentPage === 'swipe') {
-        discoverBtn.className = 'nav-btn flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg';
-        myJobsBtn.className = 'nav-btn flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all text-gray-600 hover:bg-gray-100 relative';
+        discoverBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg';
+        myJobsBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all text-gray-600 hover:bg-gray-100 relative';
       } else {
-        discoverBtn.className = 'nav-btn flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all text-gray-600 hover:bg-gray-100';
-        myJobsBtn.className = 'nav-btn flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg relative';
+        discoverBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all text-gray-600 hover:bg-gray-100';
+        myJobsBtn.className = 'flex flex-col items-center gap-1 px-8 py-3 rounded-2xl transition-all bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg relative';
       }
 
-      // Update badge
       const badge = document.getElementById('jobBadge');
       const total = state.interested.length + state.working.length;
-      if (total > 0) {
-        badge.textContent = total;
-        badge.classList.remove('hidden');
-      } else {
-        badge.classList.add('hidden');
-      }
+      badge.textContent = total;
+      badge.classList.toggle('hidden', total === 0);
     }
 
     function render() {
       const content = document.getElementById('mainContent');
+      content.innerHTML = state.currentPage === 'swipe' ? renderSwipePage() : renderMyJobsPage();
+      updateNav();
       
       if (state.currentPage === 'swipe') {
-        content.innerHTML = renderSwipePage();
         setupSwipeHandlers();
       } else {
-        content.innerHTML = renderMyJobsPage();
         setupMyJobsHandlers();
       }
-      
-      updateNav();
     }
 
     function renderSwipePage() {
@@ -256,12 +183,11 @@
       
       if (!currentJob) {
         return `
-          <div class="relative h-full flex flex-col items-center justify-center p-4 pb-8">
+          <div class="relative h-full flex items-center justify-center p-4">
             <div class="text-center animate-fadeIn">
-              <div class="text-7xl mb-4 animate-bounce">🎉</div>
+              <div class="text-7xl mb-4">🎉</div>
               <h2 class="text-3xl font-bold text-gray-900 mb-3">All Caught Up!</h2>
               <p class="text-gray-600 text-lg">You've reviewed all available jobs.</p>
-              <p class="text-gray-500 text-sm mt-2">Check back later for new opportunities!</p>
             </div>
           </div>
         `;
@@ -270,19 +196,12 @@
       return `
         <div class="relative h-full flex flex-col items-center justify-center p-4 pb-8">
           <div id="swipeCard" class="w-full max-w-md select-none relative" style="cursor: grab;">
-            <!-- Overlays -->
             <div id="likeOverlay" class="absolute inset-0 z-10 pointer-events-none transition-opacity duration-200 opacity-0">
-              <div class="absolute top-12 right-8 bg-green-500 text-white px-8 py-4 rounded-2xl font-bold text-2xl shadow-2xl transform rotate-12 border-4 border-white">
-                LIKE
-              </div>
+              <div class="absolute top-12 right-8 bg-green-500 text-white px-8 py-4 rounded-2xl font-bold text-2xl shadow-2xl transform rotate-12 border-4 border-white">LIKE</div>
             </div>
-            
             <div id="nopeOverlay" class="absolute inset-0 z-10 pointer-events-none transition-opacity duration-200 opacity-0">
-              <div class="absolute top-12 left-8 bg-red-500 text-white px-8 py-4 rounded-2xl font-bold text-2xl shadow-2xl transform -rotate-12 border-4 border-white">
-                NOPE
-              </div>
+              <div class="absolute top-12 left-8 bg-red-500 text-white px-8 py-4 rounded-2xl font-bold text-2xl shadow-2xl transform -rotate-12 border-4 border-white">NOPE</div>
             </div>
-
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
               <div class="relative bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 h-64 flex items-center justify-center">
                 <div class="text-9xl animate-bounce-subtle">${currentJob.icon}</div>
@@ -290,46 +209,38 @@
                   <span class="text-green-600 font-bold text-sm">${currentJob.payRate}</span>
                 </div>
               </div>
-              
               <div class="p-6">
                 <div class="mb-4">
                   <h2 class="text-3xl font-bold text-gray-900 mb-1">${currentJob.title}</h2>
                   <p class="text-indigo-600 font-semibold text-sm uppercase tracking-wide">${currentJob.category}</p>
                 </div>
-
                 <div class="space-y-3 mb-4">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center text-gray-600">
-                      <svg class="w-5 h-5 mr-3 text-indigo-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                       </svg>
                       <span class="text-sm font-medium">${currentJob.time}</span>
                     </div>
-                    <div class="px-3 py-1 rounded-full text-xs font-bold ${
-                      currentJob.startCost === 0 
-                        ? 'bg-green-100 text-green-700' 
-                        : 'bg-orange-100 text-orange-700'
-                    }">
+                    <div class="px-3 py-1 rounded-full text-xs font-bold ${currentJob.startCost === 0 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
                       ${currentJob.startCost === 0 ? '✓ FREE' : '$ PAID'}
                     </div>
                   </div>
                   <div class="flex items-center text-gray-600">
-                    <svg class="w-5 h-5 mr-3 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <line x1="12" y1="1" x2="12" y2="23"></line>
                       <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                     </svg>
                     <span class="text-sm font-medium">You can earn: ${currentJob.payRate}</span>
                   </div>
                 </div>
-
                 <div id="jobInfo" class="${state.showInfo ? '' : 'hidden'} mt-4 p-4 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl animate-slideDown border border-indigo-100">
                   <p class="text-gray-700 leading-relaxed">${currentJob.desc}</p>
                 </div>
               </div>
             </div>
           </div>
-
           <div class="flex gap-4 mt-8 relative z-20">
             <button id="btnPass" class="bg-white text-red-500 p-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-red-200">
               <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -337,7 +248,6 @@
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
-            
             <button id="btnInfo" class="bg-white text-indigo-500 p-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-indigo-200">
               <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -345,45 +255,30 @@
                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
               </svg>
             </button>
-            
             <button id="btnLike" class="bg-white text-green-500 p-5 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 transition-all border-2 border-green-200">
               <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
             </button>
           </div>
-
-          <div class="mt-6 text-gray-500 text-sm font-medium">
-            ${state.jobs.length - state.currentIndex} opportunities remaining
-          </div>
+          <div class="mt-6 text-gray-500 text-sm font-medium">${state.jobs.length - state.currentIndex} opportunities remaining</div>
         </div>
       `;
     }
 
     function setupSwipeHandlers() {
       const card = document.getElementById('swipeCard');
-      const btnPass = document.getElementById('btnPass');
-      const btnLike = document.getElementById('btnLike');
-      const btnInfo = document.getElementById('btnInfo');
-      
       if (!card) return;
 
-      // Touch events
       card.addEventListener('touchstart', handleTouchStart);
       card.addEventListener('touchmove', handleTouchMove);
       card.addEventListener('touchend', handleTouchEnd);
 
-      // Button events
-      btnPass.addEventListener('click', () => executeSwipe('left'));
-      btnLike.addEventListener('click', () => executeSwipe('right'));
-      btnInfo.addEventListener('click', () => {
+      document.getElementById('btnPass').addEventListener('click', () => executeSwipe('left'));
+      document.getElementById('btnLike').addEventListener('click', () => executeSwipe('right'));
+      document.getElementById('btnInfo').addEventListener('click', () => {
         state.showInfo = !state.showInfo;
-        const info = document.getElementById('jobInfo');
-        if (state.showInfo) {
-          info.classList.remove('hidden');
-        } else {
-          info.classList.add('hidden');
-        }
+        document.getElementById('jobInfo').classList.toggle('hidden');
       });
     }
 
@@ -396,12 +291,8 @@
 
     function handleTouchMove(e) {
       if (!state.touchStart || state.isAnimating) return;
-      
       const touch = e.touches[0];
-      const deltaX = touch.clientX - state.touchStart.x;
-      const deltaY = touch.clientY - state.touchStart.y;
-      
-      state.dragOffset = { x: deltaX, y: deltaY };
+      state.dragOffset = { x: touch.clientX - state.touchStart.x, y: touch.clientY - state.touchStart.y };
       updateCardTransform();
     }
 
@@ -415,18 +306,15 @@
 
       const absX = Math.abs(state.dragOffset.x);
       const absY = Math.abs(state.dragOffset.y);
-      const minSwipeDistance = 80;
 
-      if (absY > absX && state.dragOffset.y < -minSwipeDistance) {
+      if (absY > absX && state.dragOffset.y < -80) {
         state.showInfo = true;
         state.isDragging = false;
         state.dragOffset = { x: 0, y: 0 };
         state.touchStart = null;
-        updateCardTransform();
         render();
-      } else if (absX > minSwipeDistance) {
-        const direction = state.dragOffset.x > 0 ? 'right' : 'left';
-        executeSwipe(direction);
+      } else if (absX > 80) {
+        executeSwipe(state.dragOffset.x > 0 ? 'right' : 'left');
       } else {
         state.isDragging = false;
         state.dragOffset = { x: 0, y: 0 };
@@ -439,7 +327,6 @@
       const card = document.getElementById('swipeCard');
       const likeOverlay = document.getElementById('likeOverlay');
       const nopeOverlay = document.getElementById('nopeOverlay');
-      
       if (!card) return;
 
       if (state.isAnimating && state.animationDirection) {
@@ -462,12 +349,8 @@
         card.style.cursor = 'grab';
       }
 
-      // Update overlays
-      const showLike = (state.isDragging && state.dragOffset.x > 50) || (state.isAnimating && state.animationDirection === 'right');
-      const showNope = (state.isDragging && state.dragOffset.x < -50) || (state.isAnimating && state.animationDirection === 'left');
-      
-      if (likeOverlay) likeOverlay.style.opacity = showLike ? '1' : '0';
-      if (nopeOverlay) nopeOverlay.style.opacity = showNope ? '1' : '0';
+      if (likeOverlay) likeOverlay.style.opacity = (state.isDragging && state.dragOffset.x > 50) || (state.isAnimating && state.animationDirection === 'right') ? '1' : '0';
+      if (nopeOverlay) nopeOverlay.style.opacity = (state.isDragging && state.dragOffset.x < -50) || (state.isAnimating && state.animationDirection === 'left') ? '1' : '0';
     }
 
     function executeSwipe(direction) {
@@ -477,21 +360,17 @@
       state.animationDirection = direction;
       state.isDragging = false;
       state.touchStart = null;
-      
       updateCardTransform();
       
       setTimeout(() => {
-        const currentJob = state.jobs[state.currentIndex];
         if (direction === 'right') {
-          state.interested.push(currentJob);
+          state.interested.push(state.jobs[state.currentIndex]);
         }
-        
         state.currentIndex++;
         state.isAnimating = false;
         state.animationDirection = null;
         state.dragOffset = { x: 0, y: 0 };
         state.showInfo = false;
-        
         render();
       }, 400);
     }
@@ -515,8 +394,76 @@
                 <p class="text-gray-500">No active jobs yet</p>
                 <p class="text-gray-400 text-sm mt-1">Start a job from your saved list</p>
               </div>
-            ` : `
-              <div class="grid gap-4">
-                ${state.working.map(job => `
-                  <div class="bg-white rounded-2xl p-5 shadow-md border-2 border-green-500 hover:shadow-lg transition-all animate-slideIn">
-                    <div class="flex
+            ` : state.working.map(job => `
+              <div class="bg-white rounded-2xl p-5 shadow-md border-2 border-green-500 mb-4 animate-slideIn">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-start gap-4 flex-1">
+                    <div class="text-4xl">${job.icon}</div>
+                    <div>
+                      <h3 class="font-bold text-gray-900 text-lg mb-1">${job.title}</h3>
+                      <div class="text-sm text-gray-600">${job.time} • ${job.payRate}</div>
+                    </div>
+                  </div>
+                  <button class="complete-btn text-green-600 hover:text-green-700 font-medium text-sm px-4 py-2 rounded-lg hover:bg-green-50" data-id="${job.id}">Complete</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+              <div class="bg-pink-100 p-2 rounded-lg mr-3">
+                <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+              </div>
+              Saved Jobs
+            </h2>
+            ${state.interested.length === 0 ? `
+              <div class="text-center py-12 bg-white rounded-2xl shadow-sm">
+                <div class="text-5xl mb-3">💫</div>
+                <p class="text-gray-500">No saved jobs yet</p>
+                <p class="text-gray-400 text-sm mt-1">Swipe right on jobs you like!</p>
+              </div>
+            ` : state.interested.map(job => `
+              <div class="bg-white rounded-2xl p-5 shadow-md mb-4 animate-slideIn hover:shadow-lg transition-all">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-start gap-4 flex-1">
+                    <div class="text-4xl">${job.icon}</div>
+                    <div>
+                      <h3 class="font-bold text-gray-900 text-lg mb-1">${job.title}</h3>
+                      <div class="text-sm text-gray-600">${job.time} • ${job.payRate}</div>
+                    </div>
+                  </div>
+                  <button class="start-btn bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-5 py-2 rounded-xl text-sm font-medium shadow-md" data-id="${job.id}">Start</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function setupMyJobsHandlers() {
+      document.querySelectorAll('.start-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const jobId = parseInt(e.target.dataset.id);
+          const job = state.interested.find(j => j.id === jobId);
+          state.working.push(job);
+          state.interested = state.interested.filter(j => j.id !== jobId);
+          render();
+        });
+      });
+
+      document.querySelectorAll('.complete-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const jobId = parseInt(e.target.dataset.id);
+          state.working = state.working.filter(j => j.id !== jobId);
+          render();
+        });
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
